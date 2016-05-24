@@ -198,7 +198,7 @@ class RequestHandler(SocketServer.StreamRequestHandler):
                 response.status, response.value = 0x01, "key not found"
     
     def do_set(self, request, response):
-        '''Process a "Get" request, and populate the response.'''
+        '''Process a "Set" request, and populate the response.'''
         
         if not request.extra or not request.key or not request.value: # mandatory conditions
             response.status, response.value = 0x04, "invalid arguments"
