@@ -218,7 +218,8 @@ class RequestHandler(SocketServer.StreamRequestHandler):
         
 
 def serve_forever(host, port, data):
-    '''Create a one-thread-per-client TCP server to handle the requests.'''
+    '''Create a one-thread-per-client TCP server to handle the requests. The data parameter
+    is used to supply the dict-like data storage.'''
     class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
         allow_reuse_address = True
 
@@ -232,7 +233,8 @@ def serve_forever(host, port, data):
 
 class HashTable(collections.OrderedDict):
     '''The data storage is a hash table (dict) with ordering, so that oldest items can be
-    removed to make space for new items, and with lock, to support concurrency.'''
+    removed to make space for new items, and with lock, to support concurrency.
+    In the key-val pair, the key is from set request, and val is a tuple (flags, value).'''
 
     def __init__(self, limit=None):
         collections.OrderedDict.__init__(self)
@@ -241,6 +243,8 @@ class HashTable(collections.OrderedDict):
         logging.debug('created table with limit=%r', limit)
         
     def __setitem__(self, key, val):
+        '''Set key-val pair, where val is tuple (flags, value).'''
+        
         self.lock.acquire()
         try:
             # if the key exists, remove it to adjut size, before setting the new value.
@@ -274,6 +278,8 @@ class HashTable(collections.OrderedDict):
             self.lock.release()
         
     def __getitem__(self, key):
+        '''Return the val for this key, where val is (flags, value).'''
+        
         self.lock.acquire()
         try:
             result = collections.OrderedDict.__getitem__(self, key)
