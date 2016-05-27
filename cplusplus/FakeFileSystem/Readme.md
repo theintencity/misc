@@ -1,9 +1,9 @@
-= FakeFileSystem =
+# FakeFileSystem
 
 Design classes and write some simple methods for a simple mock file system.
 
 
-== Assumptions and Limitations ==
+## Assumptions and Limitations
 
 Same name node could appear multiple times in a directory, unlike
 a real file system. The size attribute is 0 for directory or link nodes, and number of
@@ -33,7 +33,7 @@ parent pointer, and implementation should be able to detect and avoid cycles whe
 adding link or directory within a directory. Or if it allows cycles, then detect
 during recursive call to avoid cycle.
 
-== Build and Test ==
+## Build and Test
 
 The project was developed using Xcode, but I created a simple Makefile to compile a test
 instead of checking in the Xcode projects. It compiles and runs on my OS X as well as 
