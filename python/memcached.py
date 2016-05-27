@@ -261,7 +261,7 @@ class HashTable(collections.OrderedDict):
                 # if limit is defined, make sure enough space is available, by
                 # removing oldest items.
                 while size + self.size > self.limit and self.size > 0:
-                    ignore, value = collections.OrderedDict.popitem(self)
+                    ignore, value = collections.OrderedDict.popitem(self, last=False)
                     value = value[1]
                     logging.debug('removed oldest item of size %r, new size %r', len(value), self.size-len(value))
                     self.size -= len(value)
